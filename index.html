@@ -1,10 +1,106 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-  <title>Website Felix</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hitung 100!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }body {
+  background: linear-gradient(135deg, #74ebd5, #9face6);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.counter {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  color: #333;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.counter:active {
+  transform: scale(0.95);
+}
+
+.message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.363);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  display: none;
+  z-index: 10;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9;
+}
+
+  </style>
 </head>
 <body>
-  <h1>Halo Dunia!</h1>
-  <p>Ini website pertama saya.</p>
-</body>
+  <div class="counter" id="counter">0</div>
+  <div class="message" id="message">Selamat anda hebat!</div>
+  <canvas id="confetti"></canvas>  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>  <script>
+    const counter = document.getElementById('counter');
+    const message = document.getElementById('message');
+    let count = 0;
+
+    document.body.addEventListener('click', () => {
+      if (count >= 10) return;
+      count++;
+      counter.textContent = count;
+      if (count === 10) {
+        message.style.display = 'block';
+        confettiEffect();
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 5000);
+      }
+    });
+
+    function confettiEffect() {
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({
+          particleCount: 7,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 7,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script></body>
 </html>
